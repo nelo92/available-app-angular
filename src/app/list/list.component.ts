@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class ListComponent implements OnInit {
 
+  //data - format : id, name, url, status
   datas: Observable<any[]>;
 
   constructor() { }
@@ -15,4 +16,9 @@ export class ListComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  add(){
+  }
+
+  delete(data){    
+  }
 }
