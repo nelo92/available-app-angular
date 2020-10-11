@@ -1,0 +1,58 @@
+<div class="container">
+
+  <div class="d-flex flex-column justify-content-center"> 
+                
+    <div class="d-flex justify-content-center my-3">
+      <div class="mr-2" [ngClass]="{'d-none' : isAdd}">
+        <button type="button" class="btn btn-sm btn-secondary" (click)="onAdd()">Add</button>
+      </div>
+      <div class="mr-2" [ngClass]="{'d-none' : !isAdd}">
+        <button type="button" class="btn btn-sm btn-secondary" (click)="onReset()">Reset</button>
+      </div>
+      <div class="mr-2">
+        <button type="button" class="btn btn-sm btn-danger disabled" (click)="onDeleteAll()">Delete All</button>
+      </div>
+    </div>
+
+    <form [formGroup]="inputForm" class="my-3">
+    <table>
+      <tr>    
+        <th>Name</th>
+        <th>Url</th>
+        <th>Status</th>
+        <th></th>
+      </tr>     
+      <tr *ngIf="isAdd">
+        <td><input type="text" formControlName="name"></td>
+        <td><input type="text" formControlName="url"></td>
+        <td></td>
+        <td>          
+          <button type="button" class="btn btn-sm btn-primary" (click)="onSubmit()">Submit</button>
+        </td>
+      </tr>     
+      <tr *ngFor="let data of datas | async">          
+          <td>{{data.name}}</td>  
+          <td>{{data.url}}</td>
+          <td>
+            <!-- TODO MAU : status calculated -->
+            
+            <!-- in progress -->
+            <!-- <i class="fas fa-spinner"></i> -->
+            <!-- valid -->
+            <!-- <i class="fas fa-check-circle"></i> -->
+            <!-- not valid -->
+            <!-- <i class="fas fa-ban"></i> -->
+
+          </td>
+          <td>
+            <span class="d-none">{{data.id}}</span>
+            <button type="button" class="btn btn-sm btn-danger m-1" (click)="onDelete(data)">Delete</button>
+          </td>    
+        </tr>
+      </table>
+    </form>
+  </div>
+</div>
+
+<!-- TODO MAU - Test callDataUrl -->
+<!-- <button type="button" class="btn btn-warning" (click)="callDataUrl()">Test CallDataUrl</button> -->
