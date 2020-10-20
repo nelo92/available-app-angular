@@ -11,21 +11,23 @@ import { FooterComponent } from './components/footer/footer.component';
 import { ListComponent } from './components/list/list.component';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { StatusComponent } from './components/status/status.component';
 
 @NgModule({
   imports: [
-    BrowserModule, 
+    BrowserModule,
     FormsModule,
-    ReactiveFormsModule, 
+    ReactiveFormsModule,
     HttpClientModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule
   ],
   declarations: [
-    AppComponent, 
-    HeaderComponent, 
-    FooterComponent, 
-    ListComponent
+    AppComponent,
+    HeaderComponent,
+    FooterComponent,
+    ListComponent,
+    StatusComponent
   ],
   bootstrap: [AppComponent],
   providers: [AvailableappService]

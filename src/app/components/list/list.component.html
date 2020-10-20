@@ -1,58 +1,89 @@
 <div class="container">
 
-  <div class="d-flex flex-column justify-content-center"> 
-                
-    <div class="d-flex justify-content-center my-3">
-      <div class="mr-2" [ngClass]="{'d-none' : isAdd}">
-        <button type="button" class="btn btn-sm btn-secondary" (click)="onAdd()">Add</button>
-      </div>
-      <div class="mr-2" [ngClass]="{'d-none' : !isAdd}">
-        <button type="button" class="btn btn-sm btn-secondary" (click)="onReset()">Reset</button>
-      </div>
-      <div class="mr-2">
-        <button type="button" class="btn btn-sm btn-danger disabled" (click)="onDeleteAll()">Delete All</button>
-      </div>
+  <div class="d-flex flex-column">
+    <div class="d-flex justify-content-center mb-3">
+      <form [formGroup]="settingForm">
+        <fieldset>
+          <legend>Setting</legend>
+          <div class="mb-3">
+            <div class="custom-control custom-radio custom-control">
+              <input type="radio" class="custom-control-input" value="local" id="local" formControlName="mode">
+              <label class="custom-control-label" for="local">Mode Local</label>
+            </div>
+            <div class="custom-control custom-radio custom-control">
+              <input type="radio" class="custom-control-input" value="online" id="online" formControlName="mode">
+              <label class="custom-control-label" for="online">Mode Online (firebase functions)</label>
+            </div>
+          </div>
+          <div class="mb-3">
+            <div class="custom-control custom-checkbox">
+              <input type="checkbox" class="custom-control-input" id="schedule" formControlName="schedule"
+                (change)="onChangeSchedule($event)">
+              <label class="custom-control-label" for="schedule">Schedule</label>
+            </div>
+          </div>
+
+        </fieldset>
+      </form>
     </div>
 
-    <form [formGroup]="inputForm" class="my-3">
-    <table>
-      <tr>    
-        <th>Name</th>
-        <th>Url</th>
-        <th>Status</th>
-        <th></th>
-      </tr>     
-      <tr *ngIf="isAdd">
-        <td><input type="text" formControlName="name"></td>
-        <td><input type="text" formControlName="url"></td>
-        <td></td>
-        <td>          
-          <button type="button" class="btn btn-sm btn-primary" (click)="onSubmit()">Submit</button>
-        </td>
-      </tr>     
-      <tr *ngFor="let data of datas | async">          
-          <td>{{data.name}}</td>  
-          <td>{{data.url}}</td>
-          <td>
-            <!-- TODO MAU : status calculated -->
-            
-            <!-- in progress -->
-            <!-- <i class="fas fa-spinner"></i> -->
-            <!-- valid -->
-            <!-- <i class="fas fa-check-circle"></i> -->
-            <!-- not valid -->
-            <!-- <i class="fas fa-ban"></i> -->
+    <div class="d-flex justify-content-center">
+      <form [formGroup]="inputForm" class="my-3">
+        <table>
+          <thead>
+            <tr>
+              <th colspan="4">
+                <div class="d-flex flex-row my-3">
+                  <div>
+                    <button type="button" class="btn btn-primary mx-2" [ngClass]="{'d-none' : isSchedule}"
+                      (click)="onCheckStatus()">Check</button>
+                    <button type="button" class="btn btn-success mx-2" [ngClass]="{'d-none' : !isSchedule}"
+                      [disabled]="isScheduleStart" (click)="onStartSchedule()">Start</button>
+                    <button type="button" class="btn btn-warning mx-2" [ngClass]="{'d-none' : !isSchedule}"
+                      [disabled]="!isScheduleStart" (click)="onStopSchedule()">Stop</button>
+                  </div>
+                  <div class="ml-auto">
+                    <button type="button" class="btn btn-sm btn-secondary mx-2" [ngClass]="{'d-none' : isAdd}" (click)="
+                      onAdd()">Add</button>
+                    <button type="button" class="btn btn-sm btn-secondary mx-2" [ngClass]="{'d-none' : !isAdd}" (click)="
+                      onReset()">Reset</button>
+                    <button type="button" class="btn btn-sm btn-danger mx-2" (click)="
+                      onDeleteAll()">Delete All</button>
+                  </div>
+                </div>
 
-          </td>
-          <td>
-            <span class="d-none">{{data.id}}</span>
-            <button type="button" class="btn btn-sm btn-danger m-1" (click)="onDelete(data)">Delete</button>
-          </td>    
-        </tr>
-      </table>
-    </form>
+              </th>
+            </tr>
+          </thead>
+          <tr>
+            <th>Name</th>
+            <th>Uri</th>
+            <th>Status</th>
+            <th></th>
+          </tr>
+          <tr *ngIf="isAdd">
+            <td><input type="text" formControlName="name"></td>
+            <td><input type="text" formControlName="uri"></td>
+            <td></td>
+            <td>
+              <button type="button" class="btn btn-sm btn-primary" (click)="onSubmit()">Submit</button>
+            </td>
+          </tr>
+          <tr *ngFor="let data of datas$ | async">
+            <td>{{data.name}}</td>
+            <td>{{data.uri}}</td>
+            <td>
+              <app-status value="{{data.status}}"></app-status>
+            </td>
+            <td>
+              <span class="d-none">{{data.id}}</span>
+              <button type="button" class="btn btn-sm btn-danger m-1" (click)="onDelete(data)">Delete</button>
+            </td>
+          </tr>
+        </table>
+      </form>
+    </div>
+
   </div>
-</div>
 
-<!-- TODO MAU - Test callDataUrl -->
-<!-- <button type="button" class="btn btn-warning" (click)="callDataUrl()">Test CallDataUrl</button> -->
+</div>

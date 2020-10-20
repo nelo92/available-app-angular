@@ -37,3 +37,6 @@ node_modules
 .firebase
 .firebaserc
 firebase.json
+
+## Node script test ###
+node_script/test
