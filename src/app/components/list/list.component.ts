@@ -43,15 +43,11 @@ export class ListComponent implements OnInit {
 
   ngOnInit(): void {
     this.load();
-
-    this.datas$.subscribe(
-      dataIds => this.datas = dataIds
-    );
-
   }
 
   load() {
     this.datas$ = this.as.getAll();
+    this.datas$.subscribe(dataIds => this.datas = dataIds);
   }
 
   onReset() {
